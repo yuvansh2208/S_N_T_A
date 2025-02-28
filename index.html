@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>NotubeTube AI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+    <link rel="stylesheet" href="styles.css"/> <!-- Link to CSS File -->
+</head>
+<body class="bg-black text-white">
+    <!-- Navbar -->
+    <nav id="navbar" class="flex items-center justify-between p-4 bg-black fixed top-0 w-full z-50">
+        <div class="flex items-center">
+            <img src="Notelogo-Photoroom.png" alt="CodeHelp Logo" class="h-10" width="40" height="40"/>
+            <span class="ml-2 text-xl font-bold text-blue-500">NoteTube <span class="text-white">AI</span></span>
+        </div>
+        <ul class="flex space-x-4">
+            <li><a href="#home" class="hover:text-blue-500">Home</a></li>
+            <li><a href="#courses" class="hover:text-blue-500">Courses</a></li>
+            <li class="relative">
+                <a href="#" class="hover:text-blue-500" id="exploreBtn">Explore <i class="fas fa-caret-down"></i></a>
+                <ul id="dropdownMenu" class="dropdown absolute mt-2">
+                    <li><a href="#challenges">Challenges</a></li>
+                    <li><a href="#projects">Projects</a></li>
+                    <li><a href="#community">Community</a></li>
+                </ul>
+            </li>
+            <li><a href="#contact" class="hover:text-blue-500">Contact</a></li>
+            <li><a href="#articles" class="hover:text-blue-500">Articles</a></li>
+            <li><a href="#tutorials" class="hover:text-blue-500">Tutorials</a></li>
+        </ul>
+        <div class="flex items-center space-x-2">
+            <span><a id="dash_name" href="#dashboard">Dashboard</a></span>
+            <img src="generic-user-icon-9.jpg" alt="User Avatar" class="h-10 rounded-full" width="40" height="40"/>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="p-8 mt-16" id="home">
+        <!-- CodeHelp RED Section -->
+        <div class="bg-red-900 p-8 rounded-lg mb-8" id="red-launch">
+            <div class="flex justify-between items-center">
+                <div>
+                    <span class="bg-red-600 text-white px-3 py-1 rounded-full">Stay Tuned</span>
+                    <h1 class="text-4xl font-bold mt-4">
+                        NoteTube AI <span class="text-red-600">RED</span> is Coming
+                    </h1>
+                    <p class="mt-2">
+                        Get ready for our most powerful learning experience yet, it's time to go RED
+                    </p>
+                    <button id="notifyBtn" class="mt-4 bg-red-600 text-white px-4 py-2 rounded-full">
+                        <i class="fas fa-bell"></i> Notify Me
+                    </button>
+                </div>
+                <img src="logo-text.webp" alt="CodeHelp RED Logo" class="h-24" width="100" height="100"/>
+            </div>
+        </div>
+
+        <!-- Features Section -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <a href="https://www.youtube.com" target="_blank" class="bg-gray-800 text-white px-4 py-2 rounded-lg text-center">YouTube</a>
+            <a href="#notes" class="bg-gray-800 text-white px-4 py-2 rounded-lg text-center">Notes</a>
+            <a href="#videos" class="bg-gray-800 text-white px-4 py-2 rounded-lg text-center">Videos</a>
+            <a href="https://chatgpt.com/" class="bg-gray-800 text-white px-4 py-2 rounded-lg text-center">Chat Bot</a>
+        </div>
+    </div>
+    <script type="module" src="loginpage.js"></script>
+    <script src="script.js"></script> <!-- Link to JavaScript File -->
+</body>
+</html>
