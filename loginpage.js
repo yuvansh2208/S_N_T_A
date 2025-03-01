@@ -1,10 +1,6 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-<<<<<<< HEAD
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, updateProfile, onAuthStateChanged, setPersistence, browserSessionPersistence } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-=======
-mport { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, updateProfile, onAuthStateChanged, setPersistence, browserSessionPersistence } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
->>>>>>> fc3849fb28adb57eec40839ac583053ced0f02f0
 import { getDatabase, ref, set, get, child, onValue } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
 // // TODO: Add SDKs for Firebase products that you want to use
@@ -60,11 +56,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
         const email = mailInput.value.trim();
         const password = passwordInput.value.trim();
-<<<<<<< HEAD
-
-=======
-        }
->>>>>>> fc3849fb28adb57eec40839ac583053ced0f02f0
         errorMessage.textContent = ""; // Clear previous errors
         if (isSignup) {
             handleSignUp(email, password);
