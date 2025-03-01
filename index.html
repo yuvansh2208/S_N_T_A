@@ -31,7 +31,7 @@
             <li><a href="#tutorials" class="hover:text-blue-500">Tutorials</a></li>
         </ul>
         <div class="flex items-center space-x-2">
-            <span><a id="dash_name" href="loginpage.html">Login/SignUp</a></span>
+            <span><a id="dash_name" href="login_signup.html">Login/SignUp</a></span>
             <img id="dp" src="generic-user-icon-9.jpg" alt="User Avatar" class="h-10 rounded-full" width="40" height="40"/ hidden>
         </div>
     </nav>
@@ -56,16 +56,60 @@
                 <img src="logo-text.webp" alt="NoteTube RED Logo" class="h-24" width="100" height="100"/>
             </div>
         </div>
-
-        <!-- Features Section -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            <a href="https://www.youtube.com" target="_blank" class="bg-gray-800 text-white px-4 py-2 rounded-lg text-center">YouTube</a>
-            <a href="#notes" class="bg-gray-800 text-white px-4 py-2 rounded-lg text-center">Notes</a>
-            <a href="#videos" class="bg-gray-800 text-white px-4 py-2 rounded-lg text-center">Videos</a>
-            <a href="https://chatgpt.com/" class="bg-gray-800 text-white px-4 py-2 rounded-lg text-center">Chat Bot</a>
+     <!-- Left Section -->
+     <div class="p-8 flex flex-col md:flex-row justify-between items-center">
+    
+        <!-- Left Section -->
+        <div class="max-w-lg">
+            <h1 class="text-4xl font-bold">
+                Solve the Scattered Notes Dilemma <span class="text-purple-400">NoteTube</span>
+            </h1>
+            <p class="mt-2 text-gray-400">
+                Capture ideas instantly, organize notes effortlessly, and enhance productivity with our smart note-taking app.
+            </p>
+    
+            <!-- Buttons -->
+            <div class="mt-4 flex space-x-4">
+                <button class="px-6 py-2 bg-purple-500 rounded-full text-white hover:bg-purple-600 transition">
+                    More Info
+                </button>
+                <button class="px-6 py-2 border border-red-400 rounded-full text-red-400 hover:bg-red-600 hover:text-white transition">
+                    Want To Know <span class="text-red-500">● Live</span>
+                </button>
+            </div>
         </div>
+    
+        <!-- Right Section (Feature Buttons) -->
+<div class="grid grid-cols-2 gap-4 mt-8 md:mt-0 md:w-2/3">
+    <button onclick="window.location.href='https://www.youtube.com';" 
+        class="px-6 py-3 bg-gray-900 rounded-lg text-white hover:bg-gray-700 transition">
+        YouTube
+    </button>
+    <button onclick="window.location.href='https://www.youtube.com';" 
+        class="px-6 py-3 bg-gray-900 rounded-lg text-white hover:bg-gray-700 transition">
+        Video
+    </button>
+    <button onclick="window.location.href='https://www.youtube.com';" 
+        class="px-6 py-3 bg-gray-900 rounded-lg text-white hover:bg-gray-700 transition">
+        ChatBot
+    </button>
+    <button onclick="window.location.href='https://www.youtube.com';" 
+        class="px-6 py-3 bg-gray-900 rounded-lg text-white hover:bg-gray-700 transition">
+        Notes
+    </button>
+</div>
+     </div>
     </div>
+    <div class="container rounded-full" >
+        <div class="glowing-box" id="tilt-box">
+            <h3>About Our Notes App</h3>
+<h1>Smart Notes, <br> Smarter Productivity</h1>
+<p>Experience the power of seamless note-taking with our AI-powered Notes App. Capture ideas effortlessly, convert speech to text, and access your notes anytime, anywhere. Designed for students, professionals, and anyone who values efficiency in note management.</p>
+
+            <button class="connect-btn">Let's Connect</button>
+        </div>
     <script type="module" src="loginpage.js"></script>
-    <script src="script.js"></script> <!-- Link to JavaScript File -->
+    <script src="script.js"></script>
+     <!-- Link to JavaScript File -->
 </body>
 </html>
