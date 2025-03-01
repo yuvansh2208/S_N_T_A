@@ -1,6 +1,6 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, updateProfile, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, updateProfile, onAuthStateChanged, setPersistence, browserSessionPersistence } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 import { getDatabase, ref, set, get, child, onValue } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
 // // TODO: Add SDKs for Firebase products that you want to use
@@ -18,11 +18,25 @@ const firebaseConfig = {
     appId: "1:291411857178:web:33242ecb444506cbd6e6a3",
     // measurementId: "G-4FQ5MYV2J1"
 };
-
+// making a variable for checking loged in or not
 // // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
-console.log(db);
+const auth = getAuth();
+setPersistence(auth, browserSessionPersistence)
+    .then(() => {
+        // Existing and future Auth states are now persisted in the current
+        // session only. Closing the window would clear any existing state even
+        // if a user forgets to sign out.
+        // ...
+        // New sign-in will be persisted with session persistence.
+        return signInWithEmailAndPassword(auth, email, password);
+    })
+    .catch((error) => {
+        // Handle Errors here.
+        const errorCode = error.code;
+        const errorMessage = error.message;
+    });
 document.addEventListener("DOMContentLoaded", function () {
     const authForm = document.getElementById("authForm");
     const mailInput = document.getElementById("mail");
@@ -43,11 +57,6 @@ document.addEventListener("DOMContentLoaded", function () {
         const email = mailInput.value.trim();
         const password = passwordInput.value.trim();
 
-        if (!email || !password) {
-            errorMessage.textContent = "All fields are required!";
-            errorMessage.style.color = "red";
-            return;
-        }
         errorMessage.textContent = ""; // Clear previous errors
         if (isSignup) {
             handleSignUp(email, password);
@@ -103,8 +112,8 @@ document.addEventListener("DOMContentLoaded", function () {
                             // Store user data in Firebase Realtime Database
                             writeUserData(user.uid, name, email);
                             alert("Account created!");
+                            window.location.reload();
                         })
-                    // window.location.reload();
                 })
                 .catch((error) => {
                     const errorMessage = error.message;
@@ -151,7 +160,7 @@ if (window.location.pathname.endsWith("index.html")) {
         if (user) {
             const db = getDatabase();
             const userRef = ref(db, 'users/' + user.uid);
-
+            document.getElementById("dp").hidden = false;
             onValue(userRef, (snapshot) => {
                 if (snapshot.exists()) {
                     const data = snapshot.val();
@@ -161,7 +170,7 @@ if (window.location.pathname.endsWith("index.html")) {
                     const g = document.getElementById("dash_name");
 
                     if (g && n) {
-                        g.textContent = "Welcome, " + n;
+                        g.textContent = "Welcome " + n;
                     }
                 } else {
                     console.log("No data found for user:", user.uid);
@@ -172,58 +181,27 @@ if (window.location.pathname.endsWith("index.html")) {
         }
     });
 }
-// document.addEventListener("DOMContentLoaded", function () {
-//     let logoutButton = document.getElementById("logout");
+document.addEventListener("DOMContentLoaded", function () {
+    let logoutButton = document.getElementById("logout");
+    if (logoutButton) {
+        logoutButton.addEventListener("click", function (event) {
+            event.preventDefault(); // Prevent default if inside a form
 
-//     if (logoutButton) {
-//         const auth = getAuth();
-//         onAuthStateChanged(auth, (user) => {
-//             if (user) {
-//                 const db = getDatabase();
-//                 const userRef = ref(db, 'users/' + user.uid);
+            const auth = getAuth(); // Ensure `auth` is properly initialized
 
-//                 onValue(userRef, (snapshot) => {
-//                     if (snapshot.exists()) {
-//                         const data = snapshot.val();
-//                         console.log("Fetched user data:", data);
-
-//                         let n = data["name"]?.trim(); // Safe optional chaining
-//                         const g = document.getElementById("greet");
-
-//                         if (g && n) {
-//                             g.textContent += " " + n;
-//                         }
-//                     } else {
-//                         console.log("No data found for user:", user.uid);
-//                     }
-//                 });
-//             } else {
-//                 console.log("User is not logged in.");
-//             }
-//         });
-//         history.pushState(null, "", location.href);
-//         window.onpopstate = function () {
-//             history.pushState(null, "", location.href);
-//         };
-
-//         logoutButton.addEventListener("click", function (event) {
-//             event.preventDefault(); // Prevent default if inside a form
-
-//             const auth = getAuth(); // Ensure `auth` is properly initialized
-
-//             signOut(auth)
-//                 .then(() => {
-//                     console.log("User signed out successfully.");
-//                     window.location.href = "index.html"; // Redirect after logout
-//                 })
-//                 .catch((error) => {
-//                     console.error("Error signing out:", error);
-//                 });
-//         });
-//     } else {
-//         console.warn("Logout button not found in the DOM.");
-//     }
-// });
+            signOut(auth)
+                .then(() => {
+                    console.log("User signed out successfully.");
+                    window.location.href = "index.html"; // Redirect after logout
+                })
+                .catch((error) => {
+                    console.error("Error signing out:", error);
+                });
+        });
+    } else {
+        console.warn("Logout button not found in the DOM.");
+    }
+});
 document.addEventListener("DOMContentLoaded", function () {
     const passwordInput = document.getElementById("password");
     const togglePassword = document.getElementById("togglePassword");
