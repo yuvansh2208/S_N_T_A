@@ -21,7 +21,6 @@ const firebaseConfig = {
 // making a variable for checking loged in or not
 // // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const db = getDatabase(app);
 const auth = getAuth();
 setPersistence(auth, browserSessionPersistence)
     .then(() => {
@@ -37,6 +36,34 @@ setPersistence(auth, browserSessionPersistence)
         const errorCode = error.code;
         const errorMessage = error.message;
     });
+if (window.location.pathname.endsWith("index.html")) {
+    const auth = getAuth();
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+            const db = getDatabase();
+            const userRef = ref(db, 'users/' + user.uid);
+            document.getElementById("dp").hidden = false;
+            document.getElementById("dash_div").classList.remove("hover:text-blue-500");
+            onValue(userRef, (snapshot) => {
+                if (snapshot.exists()) {
+                    const data = snapshot.val();
+                    console.log("Fetched user data:", data);
+
+                    let n = data["name"]?.trim(); // Safe optional chaining
+                    const g = document.getElementById("dash_name");
+                    g.removeAttribute("href"); // write here for working of dashboard and name
+                    if (g && n) {
+                        g.textContent = "Welcome " + n;
+                    }
+                } else {
+                    console.log("No data found for user:", user.uid);
+                }
+            });
+        } else {
+            console.log("User is not logged in.");
+        }
+    });
+}
 document.addEventListener("DOMContentLoaded", function () {
     const authForm = document.getElementById("authForm");
     const mailInput = document.getElementById("mail");
@@ -153,33 +180,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     };
 });
-if (window.location.pathname.endsWith("index.html")) {
-    const auth = getAuth();
-    onAuthStateChanged(auth, (user) => {
-        if (user) {
-            const db = getDatabase();
-            const userRef = ref(db, 'users/' + user.uid);
-            document.getElementById("dp").hidden = false;
-            onValue(userRef, (snapshot) => {
-                if (snapshot.exists()) {
-                    const data = snapshot.val();
-                    console.log("Fetched user data:", data);
-
-                    let n = data["name"]?.trim(); // Safe optional chaining
-                    const g = document.getElementById("dash_name");
-
-                    if (g && n) {
-                        g.textContent = "Welcome " + n;
-                    }
-                } else {
-                    console.log("No data found for user:", user.uid);
-                }
-            });
-        } else {
-            console.log("User is not logged in.");
-        }
-    });
-}
 document.addEventListener("DOMContentLoaded", function () {
     let logoutButton = document.getElementById("logout");
     if (logoutButton) {
