@@ -1,6 +1,6 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, updateProfile, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+mport { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, updateProfile, onAuthStateChanged, setPersistence, browserSessionPersistence } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 import { getDatabase, ref, set, get, child, onValue } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
 // // TODO: Add SDKs for Firebase products that you want to use
@@ -22,7 +22,21 @@ const firebaseConfig = {
 // // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
-console.log(db);
+const auth = getAuth();
+setPersistence(auth, browserSessionPersistence)
+    .then(() => {
+        // Existing and future Auth states are now persisted in the current
+        // session only. Closing the window would clear any existing state even
+        // if a user forgets to sign out.
+        // ...
+        // New sign-in will be persisted with session persistence.
+        return signInWithEmailAndPassword(auth, email, password);
+    })
+    .catch((error) => {
+        // Handle Errors here.
+        const errorCode = error.code;
+        const errorMessage = error.message;
+    });
 document.addEventListener("DOMContentLoaded", function () {
     const authForm = document.getElementById("authForm");
     const mailInput = document.getElementById("mail");
@@ -42,11 +56,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
         const email = mailInput.value.trim();
         const password = passwordInput.value.trim();
-
-        if (!email || !password) {
-            errorMessage.textContent = "All fields are required!";
-            errorMessage.style.color = "red";
-            return;
         }
         errorMessage.textContent = ""; // Clear previous errors
         if (isSignup) {
@@ -151,7 +160,7 @@ if (window.location.pathname.endsWith("index.html")) {
         if (user) {
             const db = getDatabase();
             const userRef = ref(db, 'users/' + user.uid);
-
+            document.getElementById("dp").hidden = false;
             onValue(userRef, (snapshot) => {
                 if (snapshot.exists()) {
                     const data = snapshot.val();
