@@ -155,10 +155,13 @@ document.addEventListener("DOMContentLoaded", function () {
         isSignup = !isSignup; // Toggle between login and sign-up
 
         if (isSignup) {
-            formTitle.textContent = "Sign Up";
-            submitButton.textContent = "Sign Up";
-            document.querySelector(".toggle-text").innerHTML =
-                `Already have an account? <span onclick="toggleForm()">Login</span>`;
+            formTitle.innerHTML = "<b>Sign Up</b>";
+            submitButton.innerHTML = "<b>Sign Up</b>";
+            document.getElementById("forgot").hidden = true;
+            // let l = document.getElementById("toogle")
+            // l.innerHTML = "<b>Login</b>";
+            // l.style.marginLeft = "25cap";
+            document.getElementById("have_acc").innerHTML = `Already have an account? <span id="toogle" onclick="toggleForm()"><b>Login</b></span>`;
             let form = document.getElementsByTagName("form")[0];
             if (!document.getElementById("name")) {
                 let nameInput = document.createElement("input");
@@ -169,10 +172,13 @@ document.addEventListener("DOMContentLoaded", function () {
                 form.insertBefore(nameInput, form.firstChild); // Insert at the top
             }
         } else {
-            formTitle.textContent = "Login";
-            submitButton.textContent = "Login";
-            document.querySelector(".toggle-text").innerHTML =
-                `Don't have an account? <span onclick="toggleForm()">Sign Up</span>`;
+            formTitle.innerHTML = "<b>Login</b>";
+            submitButton.innerHTML = "<b>Login</b>";
+            document.getElementById("forgot").hidden = false;
+            // let l = document.getElementById("toogle");
+            // l.innerHTML = "<b>Sign Up</b>";
+            // l.style.marginLeft = "14cap";
+            document.getElementById("have_acc").innerHTML = `Don't have an account? <span id="toogle" onclick="toggleForm()"><b>Sign Up</b></span>`;
             let nameInput = document.getElementById("name");
             if (nameInput) {
                 nameInput.parentNode.removeChild(nameInput); // Removes the element
