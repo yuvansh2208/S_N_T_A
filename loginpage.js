@@ -1,6 +1,6 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, updateProfile, onAuthStateChanged, setPersistence, browserSessionPersistence } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, updateProfile, onAuthStateChanged, setPersistence, browserSessionPersistence, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 import { getDatabase, ref, set, get, child, onValue } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
 // // TODO: Add SDKs for Firebase products that you want to use
@@ -81,10 +81,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
     authForm.addEventListener("submit", function (event) {
         event.preventDefault(); // Prevents form from refreshing the page
+        const email = mailInput.value.trim();
         if (isforget) {
+            resetPassword(email);
             console.log("Resetting password");
-        } else {
-            const email = mailInput.value.trim();
+        }
+        else {
             const password = passwordInput.value.trim();
             errorMessage.textContent = ""; // Clear previous errors
             if (isSignup) {
@@ -158,29 +160,18 @@ document.addEventListener("DOMContentLoaded", function () {
     window.reset_pass = function () {
         isforget = !isforget;
         if (isforget) {
-            if (!document.getElementById("inp_reset_mailbox")) {
-                let mailbox = document.createElement("input");
-                mailbox.type = "email";
-                mailbox.placeholder = "Enter your email";
-                mailbox.id = "inp_reset_mailbox";
-                mailbox.required = true;
-                let form = document.getElementsByTagName("form")[0];
-                // form.appendChild(mailbox);
-                form.insertBefore(mailbox, form.firstChild);
-                document.getElementById("mail").hidden = true;
-                document.getElementById("password").hidden = true;
-                document.getElementById("togglePassword").hidden = true;
-                document.getElementById("submit").innerHTML = "Reset Password";// inject html here for reset button
-                document.getElementById("have_acc").innerHTML = `Remembered my password! <span id="toogle" onclick="reset_pass()"><b>Login</b></span>`;
-                document.getElementById("forgot").hidden = true;
-                document.getElementById("form-title").innerHTML = "Reset Password";
-            }
+            document.getElementById("mail").placeholder = "Enter your email";
+            document.getElementById("password").removeAttribute("required");
+            document.getElementById("password").hidden = true;
+            document.getElementById("togglePassword").hidden = true;
+            document.getElementById("submit").innerHTML = "<b>Reset Password</b>";// inject html here for reset button
+            document.getElementById("have_acc").innerHTML = `Remembered my password! <span id="toogle" onclick="reset_pass()"><b>Login</b></span>`;
+            document.getElementById("forgot").hidden = true;
+            document.getElementById("form-title").innerHTML = "Reset Password";
         }
         else {
-            let mailbox = document.getElementById("inp_reset_mailbox");
-            if (mailbox) {
-                mailbox.parentNode.removeChild(mailbox); // Removes the element
-            }
+            document.getElementById("password").setAttribute("required", "true");
+            document.getElementById("mail").placeholder = "Mail";
             document.getElementById("mail").hidden = false;
             document.getElementById("password").hidden = false;
             document.getElementById("togglePassword").hidden = false;
@@ -189,7 +180,6 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById("forgot").hidden = false;
             document.getElementById("form-title").innerHTML = "Login";
         }
-
     }
     window.toggleForm = function () {
         isSignup = !isSignup; // Toggle between login and sign-up
@@ -277,5 +267,18 @@ function writeUserData(userId, name, email) {
         })
         .catch((error) => {
             console.error("Error writing user data:", error);
+        });
+}
+function resetPassword(email) {
+    const auth = getAuth();
+
+    sendPasswordResetEmail(auth, email)
+        .then(() => {
+            console.log("Password reset email sent!");
+            alert("Check your email for password reset instructions.");
+        })
+        .catch((error) => {
+            console.error("Error resetting password:", error.message);
+            alert(error.message);
         });
 }
