@@ -164,7 +164,7 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById("password").removeAttribute("required");
             document.getElementById("password").hidden = true;
             document.getElementById("togglePassword").hidden = true;
-            document.getElementById("submit").innerHTML = "<b>Reset Password</b>";// inject html here for reset button
+            document.getElementById("submit").innerHTML = "<b>Reset Password</b>";
             document.getElementById("have_acc").innerHTML = `Remembered my password! <span id="toogle" onclick="reset_pass()"><b>Login</b></span>`;
             document.getElementById("forgot").hidden = true;
             document.getElementById("form-title").innerHTML = "Reset Password";
@@ -172,7 +172,6 @@ document.addEventListener("DOMContentLoaded", function () {
         else {
             document.getElementById("password").setAttribute("required", "true");
             document.getElementById("mail").placeholder = "Mail";
-            document.getElementById("mail").hidden = false;
             document.getElementById("password").hidden = false;
             document.getElementById("togglePassword").hidden = false;
             document.getElementById("submit").innerHTML = "Login";
