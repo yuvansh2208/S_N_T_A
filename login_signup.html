@@ -14,7 +14,7 @@
         <div class="auth-border">
             <h2 id="form-title">Login</h2>
             <form id="authForm">
-                <input type="text" id="mail" placeholder="Mail" required>
+                <input type="email" id="mail" placeholder="Mail" required>
                 <!-- Password input with eye button -->
                 <div class="password-container">
                     <input type="password" id="password" placeholder="Password" required>
@@ -24,7 +24,7 @@
                 <button id="submit"><b>Login</b></button>
                 <div class="toggle-text">
                     <p id="have_acc">Don't have an account? <span id="toogle" onclick="toggleForm()"><b>Sign Up</b></span></p>
-                    <p id="p_for"><span id="forgot">Forgot Password</span></p>
+                    <p id="p_for"><span id="forgot" onclick="reset_pass()">Forgot Password</span></p>
                 </div>
             </form>
         </div>

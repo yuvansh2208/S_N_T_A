@@ -71,6 +71,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const errorMessage = document.getElementById("error-message");
     const formTitle = document.getElementById("form-title");
     const submitButton = document.getElementById("submit");
+    let isforget = false;
     let isSignup = false; // Tracks whether the user is in login or signup mode
 
     if (!authForm || !mailInput || !passwordInput || !errorMessage || !formTitle || !submitButton) {
@@ -80,14 +81,18 @@ document.addEventListener("DOMContentLoaded", function () {
 
     authForm.addEventListener("submit", function (event) {
         event.preventDefault(); // Prevents form from refreshing the page
-
-        const email = mailInput.value.trim();
-        const password = passwordInput.value.trim();
-        errorMessage.textContent = ""; // Clear previous errors
-        if (isSignup) {
-            handleSignUp(email, password);
+        if (isforget) {
+            console.log("Resetting password");
         } else {
-            handleLogin(email, password);
+            const email = mailInput.value.trim();
+            const password = passwordInput.value.trim();
+            errorMessage.textContent = ""; // Clear previous errors
+            if (isSignup) {
+                handleSignUp(email, password);
+            }
+            else {
+                handleLogin(email, password);
+            }
         }
     });
 
@@ -150,7 +155,42 @@ document.addEventListener("DOMContentLoaded", function () {
                 });
         }, 1000);
     }
+    window.reset_pass = function () {
+        isforget = !isforget;
+        if (isforget) {
+            if (!document.getElementById("inp_reset_mailbox")) {
+                let mailbox = document.createElement("input");
+                mailbox.type = "email";
+                mailbox.placeholder = "Enter your email";
+                mailbox.id = "inp_reset_mailbox";
+                mailbox.required = true;
+                let form = document.getElementsByTagName("form")[0];
+                // form.appendChild(mailbox);
+                form.insertBefore(mailbox, form.firstChild);
+                document.getElementById("mail").hidden = true;
+                document.getElementById("password").hidden = true;
+                document.getElementById("togglePassword").hidden = true;
+                document.getElementById("submit").innerHTML = "Reset Password";// inject html here for reset button
+                document.getElementById("have_acc").innerHTML = `Remembered my password! <span id="toogle" onclick="reset_pass()"><b>Login</b></span>`;
+                document.getElementById("forgot").hidden = true;
+                document.getElementById("form-title").innerHTML = "Reset Password";
+            }
+        }
+        else {
+            let mailbox = document.getElementById("inp_reset_mailbox");
+            if (mailbox) {
+                mailbox.parentNode.removeChild(mailbox); // Removes the element
+            }
+            document.getElementById("mail").hidden = false;
+            document.getElementById("password").hidden = false;
+            document.getElementById("togglePassword").hidden = false;
+            document.getElementById("submit").innerHTML = "Login";
+            document.getElementById("have_acc").innerHTML = `Don't have an account? <span id="toogle" onclick="toggleForm()"><b>Sign Up</b></span>`;
+            document.getElementById("forgot").hidden = false;
+            document.getElementById("form-title").innerHTML = "Login";
+        }
 
+    }
     window.toggleForm = function () {
         isSignup = !isSignup; // Toggle between login and sign-up
 
