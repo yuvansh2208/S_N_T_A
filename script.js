@@ -1,17 +1,45 @@
-// Show alert on "Notify Me" button click
-document.getElementById("notifyBtn").addEventListener("click", function() {
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, updateProfile, onAuthStateChanged, setPersistence, browserSessionPersistence, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import { getDatabase, ref, set, get, child, onValue } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+const auth = getAuth();
+onAuthStateChanged(auth, (user) => {
+    if (user) {
+        const db = getDatabase();
+        const userRef = ref(db, 'users/' + user.uid);
+        document.getElementById("dp").hidden = false;
+        document.getElementById("dash_div").classList.remove("hover:text-blue-500");
+        onValue(userRef, (snapshot) => {
+            if (snapshot.exists()) {
+                const data = snapshot.val();
+                console.log("Fetched user data:", data);
+
+                let n = data["name"]?.trim(); // Safe optional chaining
+                const g = document.getElementById("dash_name");
+                g.removeAttribute("href"); // write here for working of dashboard and name
+                if (g && n) {
+                    g.textContent = "Welcome " + n;
+                }
+            } else {
+                console.log("No data found for user:", user.uid);
+            }
+        });
+    } else {
+        console.log("User is not logged in.");
+    }
+});
+
+document.getElementById("notifyBtn").addEventListener("click", function () {
     alert("You will be notified when NoteTube RED launches!");
 });
 
 // Toggle Explore dropdown menu
-document.getElementById("exploreBtn").addEventListener("click", function(event) {
+document.getElementById("exploreBtn").addEventListener("click", function (event) {
     event.preventDefault();
     let dropdown = document.getElementById("dropdownMenu");
     dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
 });
 
 // Close dropdown if clicked outside
-document.addEventListener("click", function(event) {
+document.addEventListener("click", function (event) {
     let dropdown = document.getElementById("dropdownMenu");
     let exploreBtn = document.getElementById("exploreBtn");
     if (!exploreBtn.contains(event.target) && !dropdown.contains(event.target)) {
@@ -20,7 +48,7 @@ document.addEventListener("click", function(event) {
 });
 
 // Change navbar background on scroll
-window.addEventListener("scroll", function() {
+window.addEventListener("scroll", function () {
     let navbar = document.getElementById("navbar");
     if (window.scrollY > 50) {
         navbar.classList.add("scrolled");
@@ -37,8 +65,8 @@ box.addEventListener("mousemove", (e) => {
     const centerY = boxRect.top + boxRect.height / 10;
 
     // Tilt effect (Increased sensitivity)
-    const deltaX = (e.clientX - centerX) / 10; 
-    const deltaY = (e.clientY - centerY) / 10; 
+    const deltaX = (e.clientX - centerX) / 10;
+    const deltaY = (e.clientY - centerY) / 10;
     box.style.transform = `rotateY(${deltaX}deg) rotateX(${-deltaY}deg)`;
 
     // Dynamic background effect following cursor

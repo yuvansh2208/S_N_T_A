@@ -2,7 +2,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, updateProfile, onAuthStateChanged, setPersistence, browserSessionPersistence, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 import { getDatabase, ref, set, get, child, onValue } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
-
+// import admin from "firebase-admin";
 // // TODO: Add SDKs for Firebase products that you want to use
 // // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -18,8 +18,15 @@ const firebaseConfig = {
     appId: "1:291411857178:web:33242ecb444506cbd6e6a3",
     // measurementId: "G-4FQ5MYV2J1"
 };
-// making a variable for checking loged in or not
-// // Initialize Firebase
+// Initialize Firebase
+// const admin = require("firebase-admin");
+
+// admin.initializeApp({
+//   credential: admin.credential.applicationDefault(),
+// });
+
+// console.log("Firebase Admin SDK Initialized");
+
 const app = initializeApp(firebaseConfig);
 const auth = getAuth();
 setPersistence(auth, browserSessionPersistence)
@@ -36,34 +43,6 @@ setPersistence(auth, browserSessionPersistence)
         const errorCode = error.code;
         const errorMessage = error.message;
     });
-if (window.location.pathname.endsWith("index.html")) {
-    const auth = getAuth();
-    onAuthStateChanged(auth, (user) => {
-        if (user) {
-            const db = getDatabase();
-            const userRef = ref(db, 'users/' + user.uid);
-            document.getElementById("dp").hidden = false;
-            document.getElementById("dash_div").classList.remove("hover:text-blue-500");
-            onValue(userRef, (snapshot) => {
-                if (snapshot.exists()) {
-                    const data = snapshot.val();
-                    console.log("Fetched user data:", data);
-
-                    let n = data["name"]?.trim(); // Safe optional chaining
-                    const g = document.getElementById("dash_name");
-                    g.removeAttribute("href"); // write here for working of dashboard and name
-                    if (g && n) {
-                        g.textContent = "Welcome " + n;
-                    }
-                } else {
-                    console.log("No data found for user:", user.uid);
-                }
-            });
-        } else {
-            console.log("User is not logged in.");
-        }
-    });
-}
 document.addEventListener("DOMContentLoaded", function () {
     const authForm = document.getElementById("authForm");
     const mailInput = document.getElementById("mail");
@@ -108,12 +87,16 @@ document.addEventListener("DOMContentLoaded", function () {
                 window.location.href = "index.html";
             })
             .catch((error) => {
-                document.getElementById("error-message").textContent = "Invalid username or password!";
-                document.getElementById("error-message").style.color = "red";
-                console.error("Login failed:", error.code, error.message);
+                console.error("Login failed:", error.code);
+                if (error.code == "auth/user-not-found") {
+                    document.getElementById("error-message").textContent = "No user found with this email.";
+                } else if (error.code == "auth/wrong-password") {
+                    document.getElementById("error-message").textContent = "Incorrect password.";
+                } else if (error.code == "auth/invalid-credential"){
+                    document.getElementById("error-message").textContent = "Invalid username or password!";
+                }
             });
     }
-
     // Function to get user data from Firebase Realtime Database
     // function getUserData(userId) {
     //     const dbRef = ref(getDatabase());
@@ -151,9 +134,11 @@ document.addEventListener("DOMContentLoaded", function () {
                 .catch((error) => {
                     const errorMessage = error.message;
                     console.error("Login failed:", error.code, errorMessage);
-                    document.getElementById("error-message").textContent = "Invalid Mail!";
-                    document.getElementById("error-message").style.color = "red";
-                    // ..
+                    if (error.code == "auth/email-already-in-use") {
+                        document.getElementById("error-message").textContent = "Email already in use.";
+                    }
+                    // document.getElementById("error-message").textContent = "Invalid Mail!";
+                    // document.getElementById("error-message").style.color = "red";
                 });
         }, 1000);
     }
@@ -187,9 +172,6 @@ document.addEventListener("DOMContentLoaded", function () {
             formTitle.innerHTML = "<b>Sign Up</b>";
             submitButton.innerHTML = "<b>Sign Up</b>";
             document.getElementById("forgot").hidden = true;
-            // let l = document.getElementById("toogle")
-            // l.innerHTML = "<b>Login</b>";
-            // l.style.marginLeft = "25cap";
             document.getElementById("have_acc").innerHTML = `Already have an account? <span id="toogle" onclick="toggleForm()"><b>Login</b></span>`;
             let form = document.getElementsByTagName("form")[0];
             if (!document.getElementById("name")) {
@@ -204,9 +186,6 @@ document.addEventListener("DOMContentLoaded", function () {
             formTitle.innerHTML = "<b>Login</b>";
             submitButton.innerHTML = "<b>Login</b>";
             document.getElementById("forgot").hidden = false;
-            // let l = document.getElementById("toogle");
-            // l.innerHTML = "<b>Sign Up</b>";
-            // l.style.marginLeft = "14cap";
             document.getElementById("have_acc").innerHTML = `Don't have an account? <span id="toogle" onclick="toggleForm()"><b>Sign Up</b></span>`;
             let nameInput = document.getElementById("name");
             if (nameInput) {
