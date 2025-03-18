@@ -1,13 +1,9 @@
 // Import the functions you need from the SDKs you need
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, updateProfile, onAuthStateChanged, setPersistence, browserSessionPersistence, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-import { getDatabase, ref, set, get, child, onValue } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
-// import admin from "firebase-admin";
-// // TODO: Add SDKs for Firebase products that you want to use
-// // https://firebase.google.com/docs/web/setup#available-libraries
-
-// // Your web app's Firebase configuration
-// // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, updateProfile, onAuthStateChanged, setPersistence, browserSessionPersistence, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-auth.js";
+import { getDatabase, ref, set, get, child, onValue } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-database.js";
+import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js";
+// Your web app's Firebase configuration
 const firebaseConfig = {
     apiKey: "AIzaSyBrBuYJYzdkVNTxVrOul-O1m5V_oLQxotw",
     authDomain: "my-shop-3f13c.firebaseapp.com",
@@ -19,15 +15,8 @@ const firebaseConfig = {
     // measurementId: "G-4FQ5MYV2J1"
 };
 // Initialize Firebase
-// const admin = require("firebase-admin");
-
-// admin.initializeApp({
-//   credential: admin.credential.applicationDefault(),
-// });
-
-// console.log("Firebase Admin SDK Initialized");
-
 const app = initializeApp(firebaseConfig);
+const db_f = getFirestore(app);
 const auth = getAuth();
 setPersistence(auth, browserSessionPersistence)
     .then(() => {
@@ -92,7 +81,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     document.getElementById("error-message").textContent = "No user found with this email.";
                 } else if (error.code == "auth/wrong-password") {
                     document.getElementById("error-message").textContent = "Incorrect password.";
-                } else if (error.code == "auth/invalid-credential"){
+                } else if (error.code == "auth/invalid-credential") {
                     document.getElementById("error-message").textContent = "Invalid username or password!";
                 }
             });
@@ -128,7 +117,6 @@ document.addEventListener("DOMContentLoaded", function () {
                             // Store user data in Firebase Realtime Database
                             writeUserData(user.uid, name, email);
                             alert("Account created!");
-                            window.location.reload();
                         })
                 })
                 .catch((error) => {
@@ -137,8 +125,6 @@ document.addEventListener("DOMContentLoaded", function () {
                     if (error.code == "auth/email-already-in-use") {
                         document.getElementById("error-message").textContent = "Email already in use.";
                     }
-                    // document.getElementById("error-message").textContent = "Invalid Mail!";
-                    // document.getElementById("error-message").style.color = "red";
                 });
         }, 1000);
     }
@@ -234,18 +220,30 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 });
 
-function writeUserData(userId, name, email) {
-    const db = getDatabase();
-    set(ref(db, 'users/' + userId), {
-        name: name,
-        email: email
-    })
-        .then(() => {
-            console.log("User data written successfully!");
-        })
-        .catch((error) => {
-            console.error("Error writing user data:", error);
-        });
+async function writeUserData(userId, name, email) {
+    try {
+        const db = getDatabase();
+        await set(ref(db, 'users/' + userId), { name, email });
+        await setDoc(doc(db_f, "users", userId), {
+            name: name,
+            mail: email,
+          });
+        console.log("User data written successfully!");
+    } catch (error) {
+        console.error("Error writing user data:", error);
+    }
+}
+async function readUserData(userId) {
+    try {
+        const userDoc = await getDoc(doc(db_f, "users", userId));
+        if (userDoc.exists()) {
+            console.log("User Data:", userDoc.data());
+        } else {
+            console.log("No user found with the given name.");
+        }
+    } catch (error) {
+        console.error("Error reading user data:", error);
+    }
 }
 function resetPassword(email) {
     const auth = getAuth();

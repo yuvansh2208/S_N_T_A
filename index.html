@@ -1,18 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>NotubeTube AI</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
-    <link rel="stylesheet" href="styles.css"/> <!-- Link to CSS File -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <link rel="stylesheet" href="styles.css" /> <!-- Link to CSS File -->
 </head>
+
 <body class="bg-black text-white">
     <!-- Navbar -->
     <nav id="navbar" class="flex items-center justify-between p-4 bg-black fixed top-0 w-full z-50">
         <div class="flex items-center">
-            <img src="Notelogo-Photoroom.png" alt="NoteTube Logo" class="h-10" width="40" height="40"/>
+            <img src="Notelogo-Photoroom.png" alt="NoteTube Logo" class="h-10" width="40" height="40" />
             <span class="ml-2 text-xl font-bold text-blue-500">NoteTube <span class="text-white">AI</span></span>
         </div>
         <ul class="flex space-x-4">
@@ -32,7 +34,8 @@
         </ul>
         <div id="dash_div" class="flex items-center space-x-2 hover:text-blue-500">
             <span><a id="dash_name" href="login_signup.html">Login/SignUp</a></span>
-            <img id="dp" src="generic-user-icon-9.jpg" alt="User Avatar" class="h-10 rounded-full" width="40" height="40"/ hidden>
+            <img id="dp" src="generic-user-icon-9.jpg" alt="User Avatar" class="h-10 rounded-full" width="40"
+                height="40" / hidden>
         </div>
     </nav>
 
@@ -53,63 +56,67 @@
                         <i class="bell"></i> Notify Me
                     </button>
                 </div>
-                <img src="logo-text.webp" alt="NoteTube RED Logo" class="h-24" width="100" height="100"/>
+                <img src="logo-text.webp" alt="NoteTube RED Logo" class="h-24" width="100" height="100" />
             </div>
         </div>
-     <!-- Left Section -->
-     <div class="p-8 flex flex-col md:flex-row justify-between items-center">
-    
         <!-- Left Section -->
-        <div class="max-w-lg">
-            <h1 class="text-4xl font-bold">
-                Solve the Scattered Notes Dilemma <span class="text-purple-400">NoteTube</span>
-            </h1>
-            <p class="mt-2 text-gray-400">
-                Capture ideas instantly, organize notes effortlessly, and enhance productivity with our smart note-taking app.
-            </p>
-    
-            <!-- Buttons -->
-            <div class="mt-4 flex space-x-4">
-                <button class="px-6 py-2 bg-purple-500 rounded-full text-white hover:bg-purple-600 transition">
-                    More Info
+        <div class="p-8 flex flex-col md:flex-row justify-between items-center">
+
+            <!-- Left Section -->
+            <div class="max-w-lg">
+                <h1 class="text-4xl font-bold">
+                    Solve the Scattered Notes Dilemma <span class="text-purple-400">NoteTube</span>
+                </h1>
+                <p class="mt-2 text-gray-400">
+                    Capture ideas instantly, organize notes effortlessly, and enhance productivity with our smart
+                    note-taking app.
+                </p>
+
+                <!-- Buttons -->
+                <div class="mt-4 flex space-x-4">
+                    <button class="px-6 py-2 bg-purple-500 rounded-full text-white hover:bg-purple-600 transition">
+                        More Info
+                    </button>
+                    <button
+                        class="px-6 py-2 border border-red-400 rounded-full text-red-400 hover:bg-red-600 hover:text-white transition">
+                        Want To Know <span class="text-red-500">● Live</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Right Section (Feature Buttons) -->
+            <div class="grid grid-cols-2 gap-4 mt-8 md:mt-0 md:w-2/3">
+                <button onclick="window.location.href='https://www.youtube.com';"
+                    class="px-6 py-3 bg-gray-900 rounded-lg text-white hover:bg-gray-700 transition">
+                    YouTube
                 </button>
-                <button class="px-6 py-2 border border-red-400 rounded-full text-red-400 hover:bg-red-600 hover:text-white transition">
-                    Want To Know <span class="text-red-500">● Live</span>
+                <button onclick="window.location.href='https://www.youtube.com';"
+                    class="px-6 py-3 bg-gray-900 rounded-lg text-white hover:bg-gray-700 transition">
+                    Video
+                </button>
+                <button onclick="window.location.href='https://www.youtube.com';"
+                    class="px-6 py-3 bg-gray-900 rounded-lg text-white hover:bg-gray-700 transition">
+                    ChatBot
+                </button>
+                <button onclick="window.location.href='https://www.youtube.com';"
+                    class="px-6 py-3 bg-gray-900 rounded-lg text-white hover:bg-gray-700 transition">
+                    Notes
                 </button>
             </div>
         </div>
-    
-        <!-- Right Section (Feature Buttons) -->
-<div class="grid grid-cols-2 gap-4 mt-8 md:mt-0 md:w-2/3">
-    <button onclick="window.location.href='https://www.youtube.com';" 
-        class="px-6 py-3 bg-gray-900 rounded-lg text-white hover:bg-gray-700 transition">
-        YouTube
-    </button>
-    <button onclick="window.location.href='https://www.youtube.com';" 
-        class="px-6 py-3 bg-gray-900 rounded-lg text-white hover:bg-gray-700 transition">
-        Video
-    </button>
-    <button onclick="window.location.href='https://www.youtube.com';" 
-        class="px-6 py-3 bg-gray-900 rounded-lg text-white hover:bg-gray-700 transition">
-        ChatBot
-    </button>
-    <button onclick="window.location.href='https://www.youtube.com';" 
-        class="px-6 py-3 bg-gray-900 rounded-lg text-white hover:bg-gray-700 transition">
-        Notes
-    </button>
-</div>
-     </div>
     </div>
-    <div class="container rounded-full" >
+    <div class="container rounded-full">
         <div class="glowing-box" id="tilt-box">
             <h3>About Our Notes App</h3>
-<h1>Smart Notes, <br> Smarter Productivity</h1>
-<p>Experience the power of seamless note-taking with our AI-powered Notes App. Capture ideas effortlessly, convert speech to text, and access your notes anytime, anywhere. Designed for students, professionals, and anyone who values efficiency in note management.</p>
+            <h1>Smart Notes, <br> Smarter Productivity</h1>
+            <p>Experience the power of seamless note-taking with our AI-powered Notes App. Capture ideas effortlessly,
+                convert speech to text, and access your notes anytime, anywhere. Designed for students, professionals,
+                and anyone who values efficiency in note management.</p>
 
             <button class="connect-btn">Let's Connect</button>
         </div>
-    <script type="module" src="loginpage.js"></script>
-    <script type="module" src="script.js"></script>
-     <!-- Link to JavaScript File -->
+        <script type="module" src="loginpage.js"></script>
+        <script type="module" src="script.js"></script>
 </body>
+
 </html>
