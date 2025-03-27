@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Scrollable Box</title>
+    <style>
+        .scroll-container {
+            width: 300px;
+            height: 200px;
+            border: 2px solid #333;
+            overflow-y: scroll;
+            padding: 10px;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+
+        .scroll-content {
+            line-height: 1.6;
+        }
+
+        /* Custom scrollbar styling */
+        .scroll-container::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        .scroll-container::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        .scroll-container::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 5px;
+        }
+
+        .scroll-container::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="scroll-container">
+        <div class="scroll-content" id="scrollContent">
+            <!-- Content will be dynamically added here -->
+        </div>
+    </div>
+
+    <script>
+        // Function to generate lines of text
+        function generateContent() {
+            const scrollContent = document.getElementById('scrollContent');
+            
+            // Generate 50 lines of sample text
+            for (let i = 1; i <= 50; i++) {
+                const line = document.createElement('p');
+                line.textContent = `Line ${i}: This is a sample text to demonstrate scrolling functionality.`;
+                scrollContent.appendChild(line);
+            }
+        }
+
+        // Call the function when the page loads
+        window.onload = generateContent;
+    </script>
+</body>
+</html>
